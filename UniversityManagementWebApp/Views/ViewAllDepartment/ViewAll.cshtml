@@ -1,0 +1,84 @@
+﻿
+@using System.Activities.Expressions
+@using UniversityManagementWebApp.Models
+@model List<UniversityManagementWebApp.Models.Department>
+
+@{
+    ViewBag.Title = "Save";
+    Layout = null;
+    List<Department> departmentList = Model;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>View All Department</title>
+    <link href="~/style.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet"/>
+    <style>
+        th {
+            background-color: skyblue;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            @*<div class="logo">
+                    <a href="#"><img src="img/2.jpg" alt="" /></a>
+                </div>*@
+            <div class="menu">
+                <nav>
+                    <ul>
+                        <li><a href="../Department/Save">Save Department</a></li>
+                        <li><a href="../ViewAllDepartment/ViewAll">View Department</a></li>
+                        <li><a href="../Cource/Save">Save Cource</a></li>
+                        <li><a href="../Teacher/Save">Save Teacher</a></li>
+                        <li><a href="../CourceAssign/Save">Assign Cource</a></li>
+                        <li><a href="../">Cource Statistics</a></li>
+                        <li><a href="../">Register Cource</a></li>
+                        <li><a href="../">Allocate ClassRooms </a></li>
+                        <li><a href="../">Class Scedule</a></li>
+                        <li><a href="../Enroll/Save">Enroll Cource</a></li>
+                        <li><a href="../Result/Save">Save Results</a></li>
+                        <li><a href="../">View Result</a></li>
+                        <li><a href="../">Unassign Cources</a></li>
+                        <li><a href="../">Unallocate Rooms</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <div align="center" class="container">
+        <fieldset style="width: 60%">
+            <legend>View All Departments</legend>
+
+            <table class="display" style="width: 50%" id="example">
+                <tr>
+                    <th>Code</th>
+                    <th>Name</th>
+                </tr>
+                @foreach (Department department in departmentList)
+                {
+                    <tr>
+                        <td>@department.Code</td>
+                        <td>@department.Name</td>
+                    </tr>
+                }
+            </table>
+        </fieldset>
+    </div>
+    <script src="~/Scripts/jquery-1.12.4.min.js"></script>
+    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#example').DataTable();
+        });
+    </script>
+<script src="~/Scripts/jquery-1.12.4.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+</body>
+</html>
+

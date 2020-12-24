@@ -1,0 +1,153 @@
+﻿@using System.Activities.Expressions
+@model UniversityManagementWebApp.Models.Enroll
+
+@{
+    ViewBag.Title = "Save";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Enroll in a Cource</title>
+    <link href="~/style.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
+</head>
+<body>
+    <header>
+        <div class="container">
+            @*<div class="logo">
+                    <a href="#"><img src="img/2.jpg" alt="" /></a>
+                </div>*@
+            <div class="menu">
+                <nav>
+                    <ul>
+                        <li><a href="../Department/Save">Save Department</a></li>
+                        <li><a href="../ViewAllDepartment/ViewAll">View Department</a></li>
+                        <li><a href="../Cource/Save">Save Cource</a></li>
+                        <li><a href="../Teacher/Save">Save Teacher</a></li>
+                        <li><a href="../CourceAssign/Save">Assign Cource</a></li>
+                        <li><a href="#">Cource Statistics</a></li>
+                        <li><a href="#">Register Cource</a></li>
+                        <li><a href="#">Allocate ClassRooms </a></li>
+                        <li><a href="#">Class Scedule</a></li>
+                        <li><a href="../Enroll/Save">Enroll Cource</a></li>
+                        <li><a href="../Result/Save">Save Results</a></li>
+                        <li><a href="#">View Result</a></li>
+                        <li><a href="#">Unassign Cources</a></li>
+                        <li><a href="#">Unallocate Rooms</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "signupForm" }))
+    {
+        <div align="center">
+            <fieldset style="width: 60%">
+                <legend>Enroll In a Cource</legend>
+
+                <table>
+                    <tr>
+                        <td>@Html.LabelFor(x => x.StudentId)</td>
+                        <td>
+                            @Html.DropDownListFor(x => x.StudentId, new SelectList(ViewBag.Students, "Value", "Text"))
+                            @Html.ValidationMessageFor(x => x.StudentId)
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(x => x.Name)</td>
+                        <td>
+                            @Html.TextBoxFor(x => x.Name, new { @readonly = "readonly" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(x => x.Email)</td>
+                        <td>
+                            @Html.TextBoxFor(x => x.Email, new { @readonly = "readonly" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(x => x.Department)</td>
+                        <td>
+                            @Html.TextBoxFor(x => x.Department, new { @readonly = "readonly" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(x => x.CourceId)</td>
+                        <td>
+                            @Html.DropDownListFor(x => x.CourceId, new SelectList(ViewBag.Cources, "Value", "Text"))
+                            @Html.ValidationMessageFor(x => x.CourceId)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(x => x.Date)</td>
+                        <td>
+                            @Html.TextBoxFor(x => x.Date)
+                            @Html.ValidationMessageFor(x => x.Date)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td><input type="submit" /></td>
+                    </tr>
+
+                </table>
+            </fieldset>
+        </div>
+    }
+    @if (ViewBag.messege != null)
+    {
+        <h3>@ViewBag.messege</h3>
+    }
+
+    <script src="~/Scripts/jquery-1.12.4.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
+    <script>
+        $(function () {
+            $("#Date").datepicker();
+
+        });
+        //$(document).ready(function () {
+        $("#StudentId").change(function () {
+            var studentId = $("#StudentId").val();
+            var json = { stdId: studentId };
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetSelectedStudent", "Enroll")',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(json),
+                success: function (data) {
+                    $("#Name").empty();
+                    $("#Email").empty();
+                    $("#Department").empty();
+                    $("#Name").val(data.Name);
+                    $("#Email").val(data.Email);
+                    $("#Department").val(data.Department);
+                }
+            });
+
+            @*$.ajax({
+            type: "POST",
+            url: '@Url.Action("GetSelectedCource", "Enroll")',
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(json),
+            success: function(data) {
+
+                $.each(data, function(key, value) {
+                    $("#CourceId").append('<option value="' + value.CourceId + '">' + value.CourceCode + '</option>');
+                });
+            }
+        });*@
+
+        });
+    </script>
+
+</body>
+</html>
